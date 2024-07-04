@@ -47,12 +47,16 @@ public class AccountService
 
     private void printTransactions(List<AccountTransaction> accountTransactions)
     {
-        if (accountTransactions.Count > 0)
-        {
-            var lastTransaction = accountTransactions.Last();
-            this.printer.printLine($"{lastTransaction.getDate()} || {lastTransaction.getAmount()} || {lastTransaction.getBalance()}");
+        if (accountTransactions.Count <= 0) return;
+        
+        var lastTransaction = accountTransactions.Last();
+        this.printer.printLine($"{lastTransaction.getDate()} || {lastTransaction.getAmount()} || {lastTransaction.getBalance()}");
             
-            printTransactions(accountTransactions.GetRange(0, accountTransactions.Count - 1));
-        }
+        printTransactions(removeLastTransaction(accountTransactions));
+    }
+
+    private static List<AccountTransaction> removeLastTransaction(List<AccountTransaction> accountTransactions)
+    {
+        return accountTransactions.GetRange(0, accountTransactions.Count - 1);
     }
 }
