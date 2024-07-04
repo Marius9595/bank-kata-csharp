@@ -27,9 +27,13 @@ public class AccountService
 
     public void printStatement()
     {
-        this.printer.printLine("DATE || AMOUNT || BALANCE");
-
+        printHeader();
         printTransactions(this.transactions);
+    }
+
+    private void printHeader()
+    {
+        this.printer.printLine("DATE || AMOUNT || BALANCE");
     }
 
     private void printTransactions(List<AccountTransaction> accountTransactions)
