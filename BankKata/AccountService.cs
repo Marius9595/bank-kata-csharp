@@ -26,6 +26,6 @@ public class AccountService
 
     public void printStatement()
     {
-        
+        this.printer.printLine("DATE | AMOUNT | BALANCE");
     }
 }
