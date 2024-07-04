@@ -27,4 +27,16 @@ public class AccountServiceTests
             printer.Received().printLine("10/01/2012 | 1000 | 1000");
         });
     }
+    
+    [Fact]
+    public void ShouldAlwaysPrintHeader()
+    {
+        var printer = Substitute.For<Printer>();
+        var clock = Substitute.For<Clock>();
+        var accountService = new AccountService(printer, clock);
+        
+        accountService.printStatement();
+        
+        printer.Received().printLine("DATE | AMOUNT | BALANCE");
+    }
 }
