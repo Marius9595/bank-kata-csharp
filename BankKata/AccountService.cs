@@ -29,6 +29,9 @@ public class AccountService
 
     public void withdraw(int amount)
     {
+        var thereAreTransactions = this.transactions.Count > 0;
+        var newBalance = thereAreTransactions ? currentBalance() - amount : -amount;
+        this.transactions.Add(new AccountTransaction(-amount, this.clock.today(), newBalance));
     }
 
     public void printStatement()
