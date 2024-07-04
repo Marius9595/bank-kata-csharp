@@ -3,14 +3,12 @@ using Tests;
 
 namespace BankKata;
 
-
-
 public class AccountService
 {
     Printer printer;
     Clock clock;
     List<AccountTransaction> transactions = new List<AccountTransaction>();
-    
+
     public AccountService(Printer printer, Clock clock)
     {
         this.printer = printer;
@@ -19,29 +17,58 @@ public class AccountService
 
     public void deposit(int amount)
     {
-        this.transactions.Add(new AccountTransaction(amount, this.clock.today()));
+        var balance = this.transactions.Count > 0 ? this.transactions.Last().getBalance() + amount : amount;
+        this.transactions.Add(new AccountTransaction(amount, this.clock.today(), balance));
     }
 
     public void withdraw(int amount)
     {
-        
     }
 
     public void printStatement()
     {
         this.printer.printLine("DATE || AMOUNT || BALANCE");
-        
-        if(this.transactions.Count > 0)
+
+        printTransactions(this.transactions);
+    }
+
+    private void printTransactions(List<AccountTransaction> accountTransactions)
+    {
+        if (accountTransactions.Count > 0)
         {
-            this.printer.printLine("10/01/2012 || 1000 || 1000");
+            var lastTransaction = accountTransactions.Last();
+            this.printer.printLine($"{lastTransaction.getDate()} || {lastTransaction.getAmount()} || {lastTransaction.getBalance()}");
+            
+            printTransactions(accountTransactions.GetRange(0, accountTransactions.Count - 1));
         }
     }
 }
 
 public class AccountTransaction
 {
-    public AccountTransaction(int amount, string date)
+    int amount;
+    string date;
+    int balance;
+
+    public AccountTransaction(int amount, string date, int balance)
     {
-        
+        this.amount = amount;
+        this.date = date;
+        this.balance = balance;
+    }
+
+    public int getAmount()
+    {
+        return this.amount;
+    }
+    
+    public string getDate()
+    {
+        return this.date;
+    }
+
+    public int getBalance()
+    {
+        return this.balance;
     }
 }
