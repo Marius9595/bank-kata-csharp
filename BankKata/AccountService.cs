@@ -17,8 +17,14 @@ public class AccountService
 
     public void deposit(int amount)
     {
-        var balance = this.transactions.Count > 0 ? this.transactions.Last().getBalance() + amount : amount;
-        this.transactions.Add(new AccountTransaction(amount, this.clock.today(), balance));
+        var thereAreTransactions = this.transactions.Count > 0;
+        var newBalance = thereAreTransactions ? currentBalance() + amount : amount;
+        this.transactions.Add(new AccountTransaction(amount, this.clock.today(), newBalance));
+    }
+
+    private int currentBalance()
+    {
+        return this.transactions.Last().getBalance();
     }
 
     public void withdraw(int amount)
