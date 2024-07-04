@@ -17,8 +17,7 @@ public class AccountService
 
     public void deposit(int amount)
     {
-        var thereAreTransactions = this.transactions.Count > 0;
-        var newBalance = thereAreTransactions ? currentBalance() + amount : amount;
+        var newBalance = thereAreTransactions(this.transactions) ? currentBalance() + amount : amount;
         this.transactions.Add(new AccountTransaction(amount, this.clock.today(), newBalance));
     }
 
@@ -29,8 +28,7 @@ public class AccountService
 
     public void withdraw(int amount)
     {
-        var thereAreTransactions = this.transactions.Count > 0;
-        var newBalance = thereAreTransactions ? currentBalance() - amount : -amount;
+        var newBalance = thereAreTransactions(this.transactions) ? currentBalance() - amount : -amount;
         this.transactions.Add(new AccountTransaction(-amount, this.clock.today(), newBalance));
     }
 
@@ -47,12 +45,17 @@ public class AccountService
 
     private void printTransactions(List<AccountTransaction> accountTransactions)
     {
-        if (accountTransactions.Count <= 0) return;
+        if (thereAreTransactions(accountTransactions)) return;
         
         var lastTransaction = accountTransactions.Last();
         this.printer.printLine($"{lastTransaction.getDate()} || {lastTransaction.getAmount()} || {lastTransaction.getBalance()}");
             
         printTransactions(removeLastTransaction(accountTransactions));
+    }
+
+    private static bool thereAreTransactions(List<AccountTransaction> accountTransactions)
+    {
+        return accountTransactions.Count <= 0;
     }
 
     private static List<AccountTransaction> removeLastTransaction(List<AccountTransaction> accountTransactions)
