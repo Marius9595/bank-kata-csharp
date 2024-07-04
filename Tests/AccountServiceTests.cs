@@ -77,4 +77,22 @@ public class AccountServiceTests
             printer.Received().printLine("10/01/2012 || 1000 || 1000");
         });
     }
+    
+    [Fact]
+    public void ShouldPrintWithDraw()
+    {
+        var printer = Substitute.For<Printer>();
+        var clock = Substitute.For<Clock>();
+        clock.today().Returns("10/01/2012");
+        var accountService = new AccountService(printer, clock);
+        
+        accountService.withdraw(1000);
+        accountService.printStatement();
+        
+        Received.InOrder(() =>
+        {
+            printer.Received().printLine("DATE || AMOUNT || BALANCE");
+            printer.Received().printLine("10/01/2012 || -1000 || -1000");
+        });
+    }
 }
