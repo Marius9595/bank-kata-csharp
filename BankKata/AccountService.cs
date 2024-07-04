@@ -45,7 +45,7 @@ public class AccountService
 
     private void printTransactions(List<AccountTransaction> accountTransactions)
     {
-        if (thereAreTransactions(accountTransactions)) return;
+        if (!thereAreTransactions(accountTransactions)) return;
         
         var lastTransaction = accountTransactions.Last();
         this.printer.printLine($"{lastTransaction.getDate()} || {lastTransaction.getAmount()} || {lastTransaction.getBalance()}");
@@ -55,7 +55,7 @@ public class AccountService
 
     private static bool thereAreTransactions(List<AccountTransaction> accountTransactions)
     {
-        return accountTransactions.Count <= 0;
+        return accountTransactions.Count > 0;
     }
 
     private static List<AccountTransaction> removeLastTransaction(List<AccountTransaction> accountTransactions)
