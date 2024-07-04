@@ -57,4 +57,24 @@ public class AccountServiceTests
             printer.Received().printLine("10/01/2012 || 1000 || 1000");
         });
     }
+    
+    [Fact]
+    public void ShouldPrintMultipleDeposits()
+    {
+        var printer = Substitute.For<Printer>();
+        var clock = Substitute.For<Clock>();
+        clock.today().Returns("10/01/2012", "13/01/2012");
+        var accountService = new AccountService(printer, clock);
+        
+        accountService.deposit(1000);
+        accountService.deposit(2000);
+        accountService.printStatement();
+        
+        Received.InOrder(() =>
+        {
+            printer.Received().printLine("DATE || AMOUNT || BALANCE");
+            printer.Received().printLine("13/01/2012 || 2000 || 3000");
+            printer.Received().printLine("10/01/2012 || 1000 || 1000");
+        });
+    }
 }
