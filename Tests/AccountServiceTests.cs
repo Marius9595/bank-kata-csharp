@@ -21,10 +21,10 @@ public class AccountServiceTests
 
         Received.InOrder(() =>
         {
-            printer.Received().printLine("DATE | AMOUNT | BALANCE");
-            printer.Received().printLine("14/01/2012 | -500 | 2500");
-            printer.Received().printLine("13/01/2012 | 2000 | 3000");
-            printer.Received().printLine("10/01/2012 | 1000 | 1000");
+            printer.Received().printLine("DATE || AMOUNT || BALANCE");
+            printer.Received().printLine("14/01/2012 || -500 || 2500");
+            printer.Received().printLine("13/01/2012 || 2000 || 3000");
+            printer.Received().printLine("10/01/2012 || 1000 || 1000");
         });
     }
     
@@ -37,6 +37,6 @@ public class AccountServiceTests
         
         accountService.printStatement();
         
-        printer.Received().printLine("DATE | AMOUNT | BALANCE");
+        printer.Received().printLine("DATE || AMOUNT || BALANCE");
     }
 }
